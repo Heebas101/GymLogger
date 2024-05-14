@@ -1,0 +1,6 @@
+/* NavbarStyles.css */
+@media screen and (min-width: 768px) {
+  .navbar-hamburger {
+    display: none;
+  }
+}
