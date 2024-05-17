@@ -3,13 +3,14 @@ import { Link, useParams } from 'react-router-dom';
 import Axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle, faO } from '@fortawesome/free-solid-svg-icons';
+import WorkoutAPI from '../../apis/WorkoutAPI';
 
 const DoWorkout = () => {
   const { tableName } = useParams();
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    Axios.get(`http://localhost:3001/tables/${tableName}`)
+    WorkoutAPI.get(`/tables/${tableName}`)
       .then((response) => {
         setTableData(response.data.map(exercise => ({ ...exercise, ticked: false })));
       })

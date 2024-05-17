@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'; // Import Link
-import Axios from 'axios';
+import WorkoutAPI from '../../apis/WorkoutAPI';
 
 const AllWorkouts = () => {
   const [tableNames, setTableNames] = useState([]);
@@ -10,7 +10,7 @@ const AllWorkouts = () => {
   }, []);
 
   const getTableNames = () => {
-    Axios.get('http://localhost:3001/tables')
+    WorkoutAPI.get('/tables')
       .then((response) => {
         setTableNames(response.data);
       })

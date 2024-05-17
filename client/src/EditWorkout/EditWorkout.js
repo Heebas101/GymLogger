@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Axios from 'axios';
+import WorkoutAPI from '../apis/WorkoutAPI';
 
 const EditWorkout = () => {
   const { tableName } = useParams();
@@ -14,7 +14,7 @@ const EditWorkout = () => {
   const [exerciseToUpdate, setExerciseToUpdate] = useState('')
 
   useEffect(() => {
-    Axios.get(`http://localhost:3001/tables/${tableName}`)
+    WorkoutAPI.get(`/tables/${tableName}`)
       .then((response) => {
         const data = response.data;
         setTableData(data);
@@ -25,7 +25,7 @@ const EditWorkout = () => {
   }, [tableName, tableData]);
 
   const deleteExercise = (id) => {
-    Axios.delete(`http://localhost:3001/tables/${tableName}/delete/${id}`)
+    WorkoutAPI.delete(`/tables/${tableName}/delete/${id}`)
       .then(() => {
         setTableData(tableData.filter(exercise => exercise.id !== id));
       })
@@ -33,7 +33,7 @@ const EditWorkout = () => {
   };
 
   const addFullExercise = () => {
-    Axios.post(`http://localhost:3001/create/${tableName}`, {
+    WorkoutAPI.post(`/create/${tableName}`, {
       exercise: exercise,
       sets: sets,
       reps: reps,
@@ -61,7 +61,7 @@ const EditWorkout = () => {
   };
 
   const editExercise = (id) => {
-    Axios.put(`http://localhost:3001/tables/${tableName}/edit/${id}`, {
+    WorkoutAPI.put(`/api/tables/${tableName}/edit/${id}`, {
       exercise: exercise,
       sets: sets,
       reps: reps,

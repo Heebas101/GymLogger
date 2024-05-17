@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 const mysql = require('mysql');
 const cors = require('cors');
 
@@ -7,14 +8,14 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  user: 'root',
-  host: 'localhost',
-  password: 'GymAdmin1234!',
-  database: 'workouts',
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 
 //add an exercise
-app.post('/create/:tablename', (req, res) => {
+app.post('/api/create/:tablename', (req, res) => {
   const { exercise, sets, reps, weight } = req.body;
   const { tablename } = req.params;
 
@@ -35,7 +36,7 @@ app.post('/create/:tablename', (req, res) => {
 
 
 //Get exercises
-app.get('/tables/:tableName', (req, res) => {
+app.get('/api/tables/:tableName', (req, res) => {
   const { tableName } = req.params;
   db.query(`SELECT * FROM ${tableName}`, (err, result) => {
     if (err) {
@@ -49,7 +50,7 @@ app.get('/tables/:tableName', (req, res) => {
 
 
 //delete exercise
-app.delete('/tables/:tableName/delete/:id', (req, res) => {
+app.delete('/api/tables/:tableName/delete/:id', (req, res) => {
   const { id, tableName } = req.params;
 
   db.query(`DELETE FROM ${tableName} WHERE id = ?`, [id], (err, result) => {
@@ -66,7 +67,7 @@ app.delete('/tables/:tableName/delete/:id', (req, res) => {
 
 
 //Retrieving all table names 
-app.get('/tables', (req, res) => {
+app.get('/api/tables', (req, res) => {
   // Query to show all tables
   db.query('SHOW TABLES', (err, result) => {
     if (err) {
@@ -81,7 +82,7 @@ app.get('/tables', (req, res) => {
 });
 
 //Create new Table
-app.post('/newWorkout/:tablename', (req, res) => {
+app.post('/api/newWorkout/:tablename', (req, res) => {
   const tableName = req.body.tableName; 
   const sql = `CREATE TABLE ${tableName} (id INT AUTO_INCREMENT PRIMARY KEY, Exercise VARCHAR(100), Sets INT, Reps VARCHAR(40), Weight VARCHAR(40))`;
   console.log("creating new table")
@@ -96,7 +97,7 @@ app.post('/newWorkout/:tablename', (req, res) => {
 });
 
 // Update exercise
-app.put('/tables/:tableName/edit/:id', (req, res) => {
+app.put('/api/tables/:tableName/edit/:id', (req, res) => {
   const { id, tableName } = req.params;
   const { exercise, sets, reps, weight } = req.body;
   
@@ -118,7 +119,7 @@ app.put('/tables/:tableName/edit/:id', (req, res) => {
 });
 
 
-
-app.listen(3001, () => {
-  console.log('Server is running ');
+const port = process.env.PORT || 3001;
+app.listen(port, () => {
+  console.log(`Server is running and listening on port ${port}`);
 });

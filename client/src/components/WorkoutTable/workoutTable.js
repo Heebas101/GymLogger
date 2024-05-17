@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Axios from 'axios';
+import WorkoutAPI from '../../apis/WorkoutAPI';
 
 const WorkoutTable = () => {
   const { tableName } = useParams();
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    Axios.get(`http://localhost:3001/tables/${tableName}`)
+    WorkoutAPI.get(`/tables/${tableName}`)
       .then((response) => {
         const data = response.data;
         setTableData(data);
