@@ -36,7 +36,7 @@ app.post('/api/create/:tablename', (req, res) => {
 
 
 //Get exercises
-app.get('/api/tables/:tableName', (req, res) => {
+app.get('/api/tables/demo', (req, res) => {
   const { tableName } = req.params;
   db.query(`SELECT * FROM ${tableName}`, (err, result) => {
     if (err) {
@@ -47,6 +47,8 @@ app.get('/api/tables/:tableName', (req, res) => {
     }
   });
 });
+
+
 
 
 //delete exercise
