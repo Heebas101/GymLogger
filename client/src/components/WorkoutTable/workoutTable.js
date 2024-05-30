@@ -7,7 +7,7 @@ const WorkoutTable = () => {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    WorkoutAPI.get(`/tables/demo`)
+    WorkoutAPI.get(`/tables/${tableName}`)
       .then((response) => {
         const data = response.data;
         setTableData(data);

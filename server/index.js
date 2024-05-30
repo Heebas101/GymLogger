@@ -36,14 +36,15 @@ app.post('/api/create/:tablename', (req, res) => {
 
 
 //Get exercises
-app.get('/api/tables/demo', (req, res) => {
+app.get('/api/tables/:tableName', (req, res) => {
   const { tableName } = req.params;
+  console.log(tableName)
   db.query(`SELECT * FROM ${tableName}`, (err, result) => {
     if (err) {
       console.error('Error fetching exercises:', err);
       res.status(500).send('Error fetching exercises');
     } else {
-      res.status(200).send(result);
+      res.json(result)
     }
   });
 });
@@ -70,6 +71,7 @@ app.delete('/api/tables/:tableName/delete/:id', (req, res) => {
 
 //Retrieving all table names 
 app.get('/api/tables', (req, res) => {
+  console.log("getting tables")
   // Query to show all tables
   db.query('SHOW TABLES', (err, result) => {
     if (err) {
